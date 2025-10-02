@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Your Name — Portfolio</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* Reset-ish */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      color:var(--txt);
+      background:linear-gradient(180deg, #071226 0%, #07121b 60%);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      letter-spacing:0.01em;
+      padding:32px;
+    }
+
+    :root{
+      --accent:#00d4b4;        /* teal */
+      --accent-2:#f6c85f;      /* warm gold */
+      --muted:rgba(255,255,255,0.07);
+      --card:#081624;
+      --txt:rgba(255,255,255,0.95);
+      --sub:rgba(255,255,255,0.72);
+      --glass: rgba(255,255,255,0.03);
+      --radius:14px;
+      --max-width:1100px;
+      --gap:20px;
+    }
+
+    /* Layout container */
+    .wrap{
+      max-width:var(--max-width);
+      margin:0 auto;
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent 40%);
+      border-radius:18px;
+      padding:28px;
+      box-shadow: 0 6px 30px rgba(2,6,23,0.7), inset 0 1px 0 rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.03);
+      display:grid;
+      grid-template-columns: 1fr 340px;
+      gap:var(--gap);
+      align-items:start;
+    }
+
+    /* Responsive single column */
+    @media (max-width:950px){
+      .wrap{grid-template-columns: 1fr; padding:20px}
+      body{padding:20px}
+    }
+
+    /* Left column */
+    .main{
+      padding:18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.00), transparent);
+      border-radius:12px;
+    }
+
+    /* Right column / sidebar */
+    .side{
+      padding:18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+      border-radius:12px;
+      border: 1px solid rgba(255,255,255,0.02);
+      height:100%;
+      position:sticky;
+      top:28px;
+    }
+
+    /* Header / hero */
+    .hero{
+      display:flex;
+      gap:18px;
+      align-items:center;
+      margin-bottom:20px;
+    }
+    .avatar{
+      width:86px;
+      height:86px;
+      border-radius:14px;
+      background:linear-gradient(135deg,var(--muted),transparent);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:Playfair Display, serif;
+      font-size:30px;
+      color:var(--accent-2);
+      border: 1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+      flex-shrink:0;
+    }
+    .hero h1{
+      margin:0;
+      font-family:Playfair Display, serif;
+      font-weight:600;
+      font-size:26px;
+      color:var(--txt);
+    }
+    .hero p{margin:4px 0 0;color:var(--sub);font-size:14px}
+
+    .tagline{
+      margin:18px 0 28px;
+      padding:14px;
+      background:linear-gradient(90deg, rgba(0,212,180,0.04), rgba(246,200,95,0.02));
+      border-radius:12px;
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      border:1px solid rgba(255,255,255,0.02);
+      color:var(--sub);
+      font-size:14px;
+    }
+
+    /* Quick actions */
+    .actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+    .btn{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      padding:10px 14px;
+      border-radius:10px;
+      font-weight:600;
+      font-size:14px;
+      text-decoration:none;
+      transition:transform .18s ease, box-shadow .18s ease;
+      box-shadow: 0 6px 18px rgba(2,6,23,0.5);
+      border:1px solid rgba(255,255,255,0.03);
+      color:var(--txt);
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+      backdrop-filter: blur(6px);
+    }
+    .btn:active{transform:translateY(1px)}
+    .btn-primary{
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color:#07121b;
+      box-shadow: 0 8px 30px rgba(0,212,180,0.12);
+    }
+    .btn-ghost{
+      background:transparent;
+      color:var(--sub)
+    }
+
+    /* About */
+    .about{
+      display:grid;
+      grid-template-columns: 1fr 240px;
+      gap:18px;
+      align-items:start;
+    }
+    @media (max-width:900px){ .about{grid-template-columns:1fr} }
+
+    .bio{
+      background:var(--card);
+      padding:16px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.02);
+    }
+    .skills{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .chip{
+      padding:8px 10px;
+      border-radius:999px;
+      background:var(--glass);
+      color:var(--sub);
+      font-size:13px;
+      border:1px solid rgba(255,255,255,0.02);
+    }
+
+    /* Projects */
+    .projects{
+      margin-top:20px;
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+      gap:14px;
+    }
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+      padding:14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.03);
+      transition:transform .18s ease, box-shadow .18s ease;
+      min-height:120px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+    .card:hover{ transform:translateY(-6px); box-shadow:0 18px 40px rgba(0,0,0,0.6) }
+    .project-title{ font-weight:700; color:var(--txt); margin:0 0 6px; font-size:15px}
+    .project-desc{ color:var(--sub); font-size:13px; margin:0 0 12px }
+    .project-tags{ display:flex; gap:8px; flex-wrap:wrap; }
+    .tag{ font-size:12px; color:var(--sub); padding:6px 8px; border-radius:8px; background:transparent; border:1px solid rgba(255,255,255,0.02) }
+
+    /* Sidebar details */
+    .profile-card{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-bottom:18px;
+    }
+    .profile-meta{ font-size:13px; color:var(--sub) }
+
+    .contact{
+      margin-top:8px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .icon{
+      width:36px;height:36px;border-radius:10px;background:var(--muted);display:inline-grid;place-items:center;
+      font-weight:700;color:var(--accent);border:1px solid rgba(255,255,255,0.02)
+    }
+    .socials{ display:flex; gap:8px; margin-top:14px; }
+
+    /* Footer */
+    footer{
+      margin-top:20px;
+      text-align:center;
+      color:rgba(255,255,255,0.5);
+      font-size:13px;
+    }
+
+    /* Accessibility: respect reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      *{transition:none!important}
+    }
+
+    /* Utilities */
+    .muted{color:var(--sub)}
+    .mb-8{margin-bottom:8px}
+    .center{display:flex;align-items:center;gap:8px}
+  </style>
+</head>
+<body>
+  <div class="wrap" role="main" aria-labelledby="main-heading">
+    <!-- LEFT: main content -->
+    <section class="main" id="main">
+      <header class="hero">
+        <div class="avatar" aria-hidden="true">YN</div>
+        <div>
+          <h1 id="main-heading">Your Name — Product Designer & Frontend Dev</h1>
+          <p class="muted">Building thoughtful, fast interfaces. Currently open to collaborations & internships.</p>
+        </div>
+      </header>
+
+      <div class="tagline" role="status">
+        <strong style="color:var(--accent);">Available for freelance or internship</strong> · Open to ML, web, & product design projects
+      </div>
+
+      <div class="actions" aria-hidden="false">
+        <a class="btn btn-primary" href="#projects">View Projects</a>
+        <a class="btn btn-ghost" href="mailto:youremail@example.com">Email Me</a>
+        <a class="btn btn-ghost" href="#" onclick="downloadCV()">Download CV</a>
+      </div>
+
+      <div class="about" aria-label="About & Skills">
+        <div class="bio" aria-labelledby="about-title">
+          <h3 id="about-title" style="margin:0 0 8px;font-family:Playfair Display, serif;">About Me</h3>
+          <p class="muted mb-8">I design and build clean, accessible web experiences. I care about performance, clarity, and delightful micro-interactions. I enjoy turning ideas into working products.</p>
+
+          <div>
+            <strong style="font-size:13px;color:var(--sub)">Core Skills</strong>
+            <div class="skills" aria-hidden="false">
+              <span class="chip">React</span>
+              <span class="chip">TypeScript</span>
+              <span class="chip">UI/UX</span>
+              <span class="chip">Node.js</span>
+              <span class="chip">Python</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="bio" aria-labelledby="quick-stats">
+          <h3 id="quick-stats" style="margin:0 0 10px;font-family:Playfair Display, serif;">Quick Stats</h3>
+          <ul style="padding:0;margin:0;list-style:none;color:var(--sub);font-size:14px;line-height:1.9">
+            <li><strong>Experience:</strong> 1–3 yrs</li>
+            <li><strong>Open-source PRs:</strong> 10+</li>
+            <li><strong>Location:</strong> City, Country</li>
+            <li><strong>Availability:</strong> Part-time / contract</li>
+          </ul>
+        </aside>
+      </div>
+
+      <section id="projects" aria-labelledby="projects-title" style="margin-top:22px">
+        <h2 id="projects-title" style="font-family:Playfair Display, serif;margin:0 0 12px">Selected Projects</h2>
+        <div class="projects" role="list">
+          <article class="card" role="listitem" aria-label="Project 1">
+            <div>
+              <h4 class="project-title">Dynamic Parking Pricing</h4>
+              <p class="project-desc">Capstone — ML-driven realtime pricing engine using streaming analytics (IITG Summer Analytics).</p>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+              <div class="project-tags">
+                <span class="tag">Python</span><span class="tag">ML</span><span class="tag">Real-time</span>
+              </div>
+              <a class="btn btn-ghost" href="https://github.com/Yaser-123/IITG-Summer-Analytics-2025" target="_blank" rel="noopener noreferrer">View</a>
+            </div>
+          </article>
+
+          <article class="card" role="listitem" aria-label="Project 2">
+            <div>
+              <h4 class="project-title">Leads Tracker</h4>
+              <p class="project-desc">Chrome extension + web app for saving leads and notes quickly.</p>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+              <div class="project-tags">
+                <span class="tag">Chrome Ext</span><span class="tag">React</span>
+              </div>
+              <a class="btn btn-ghost" href="https://github.com/Yaser-123/Leads-tracker-Chrome-extention" target="_blank" rel="noopener noreferrer">View</a>
+            </div>
+          </article>
+
+          <!-- Example placeholder card -->
+          <article class="card" role="listitem" aria-label="Project 3">
+            <div>
+              <h4 class="project-title">Portfolio Website</h4>
+              <p class="project-desc">This single-file portfolio demonstrates a clean, modern layout and reusable components.</p>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+              <div class="project-tags">
+                <span class="tag">HTML</span><span class="tag">CSS</span>
+              </div>
+              <a class="btn btn-ghost" href="#" onclick="alert('Replace with your project link')">View</a>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <section id="contact" style="margin-top:26px">
+        <h3 style="font-family:Playfair Display, serif;margin:0 0 10px">Get in touch</h3>
+        <p class="muted" style="margin:0 0 12px">Prefer email? <a href="mailto:youremail@example.com" style="color:var(--accent);text-decoration:none">youremail@example.com</a></p>
+
+        <form onsubmit="event.preventDefault(); contactMe()" style="display:flex;gap:10px;flex-wrap:wrap">
+          <input id="name" type="text" placeholder="Your name" required style="flex:1;min-width:200px;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--txt)">
+          <input id="email" type="email" placeholder="Email" required style="flex:1;min-width:200px;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--txt)">
+          <textarea id="message" placeholder="Message" required style="width:100%;min-height:100px;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--txt)"></textarea>
+          <button class="btn btn-primary" type="submit">Send Message</button>
+        </form>
+      </section>
+    </section>
+
+    <!-- RIGHT: sidebar -->
+    <aside class="side" aria-label="Sidebar">
+      <div class="profile-card">
+        <div style="width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;color:#07121b">YN</div>
+        <div>
+          <div style="font-weight:700;color:var(--txt)">Your Name</div>
+          <div class="profile-meta">Frontend Developer • Designer</div>
+        </div>
+      </div>
+
+      <div style="margin-top:10px">
+        <strong style="font-size:13px;color:var(--sub)">Contact</strong>
+        <div class="contact" aria-hidden="false" style="margin-top:8px">
+          <a class="icon" href="mailto:youremail@example.com" title="Email">✉</a>
+          <a class="icon" href="https://github.com/YOUR_GH" target="_blank" rel="noopener noreferrer" title="GitHub">GH</a>
+          <a class="icon" href="https://www.linkedin.com/in/YOUR_LNK" target="_blank" rel="noopener noreferrer" title="LinkedIn">in</a>
+        </div>
+
+        <div class="socials" aria-hidden="false">
+          <a class="btn btn-ghost" href="https://github.com/YOUR_GH" target="_blank">GitHub</a>
+          <a class="btn btn-ghost" href="https://www.linkedin.com/in/YOUR_LNK" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+
+      <div style="margin-top:22px" aria-hidden="false">
+        <strong style="font-size:13px;color:var(--sub)">Interests</strong>
+        <div class="skills" style="margin-top:10px">
+          <span class="chip">Open Source</span>
+          <span class="chip">Design Systems</span>
+          <span class="chip">Data Viz</span>
+        </div>
+      </div>
+
+      <div style="margin-top:22px;color:var(--sub);font-size:13px">
+        <strong>Availability</strong>
+        <p style="margin:8px 0 0">Open for 3–6 month internships & freelance projects.</p>
+      </div>
+
+      <footer>
+        <small>© <span id="year"></span> Your Name — Built with care</small>
+      </footer>
+    </aside>
+  </div>
+
+  <script>
+    // small helpers
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function contactMe(){
+      const n = document.getElementById('name').value.trim();
+      const e = document.getElementById('email').value.trim();
+      const m = document.getElementById('message').value.trim();
+      if(!n||!e||!m){ alert('Please fill all fields.'); return; }
+      // Use mailto fallback. For production, hook to an email service.
+      const subject = encodeURIComponent('Portfolio contact from ' + n);
+      const body = encodeURIComponent('Name: ' + n + '\nEmail: ' + e + '\n\n' + m);
+      window.location.href = `mailto:youremail@example.com?subject=${subject}&body=${body}`;
+    }
+
+    function downloadCV(){
+      // Replace with your CV path or cloud link
+      const cvLink = '#';
+      if(cvLink === '#'){ alert('Replace the cvLink in downloadCV() with your CV URL'); return; }
+      window.open(cvLink, '_blank');
+    }
+  </script>
+</body>
+</html>
