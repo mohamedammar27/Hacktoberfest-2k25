@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Meme Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+    }
+    #meme-container {
+      margin-top: 20px;
+    }
+    #meme-title {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    #meme {
+      max-width: 500px;
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0px 2px 5px rgba(0,0,0,0.3);
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>FUNHUB - Your Daily Dose of Memes</h1>
+  <button onclick="getMeme()">Get a Meme</button>
+
+  <div id="meme-container">
+    <p id="meme-title">Click the button to see a meme!</p>
+    <img id="meme" src="" alt="Meme will appear here">
+  </div>
+
+ <script>
+  async function getMeme() {
+    try {
+      let response = await fetch("https://meme-api.com/gimme");
+      let data = await response.json();
+      document.getElementById("meme-title").innerText = data.title;
+      document.getElementById("meme").src = data.url;
+    } catch (error) {
+      document.getElementById("meme-title").innerText = "Oops! Couldn't fetch a meme.";
+    }
+  }
+
+  // Load one meme automatically when the page opens
+  window.onload = getMeme;
+</script>
+
+</body>
+</html>
