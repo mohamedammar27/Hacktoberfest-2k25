@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Reset */
+* { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+body { font-family: 'Poppins', sans-serif; background: #0d0d0d; color: #fff; line-height: 1.6; overflow-x: hidden; }
+
+/* Links */
+a { color: inherit; text-decoration: none; }
+a:hover { color: #ff94c2; transition: 0.3s; }
+
+/* Header */
+header { 
+  position: fixed; width: 100%; top: 0; left: 0; background: rgba(0,0,0,0.85); 
+  padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+header h1 { font-weight: 700; font-size: 1.8em; color: #ff94c2; letter-spacing: 1px; }
+nav a { margin-left: 18px; font-weight: 500; transition: 0.3s; }
+nav a:hover { color: #ff94c2; }
+
+/* Sections */
+section { padding: 80px 20px; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; }
+section h2 { font-size: 2em; margin-bottom: 20px; color: #ff94c2; position: relative; }
+section h2::after { content:""; width: 60px; height: 3px; background: #ff94c2; display: block; margin: 10px auto 0; border-radius: 2px; }
+
+/* Hero */
+#hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(135deg, #0d0d0d, #1a0d26); }
+#hero h2 { font-size: 3em; margin-bottom: 15px; animation: fadeInUp 1s ease forwards; }
+#hero p { font-size: 1.3em; max-width: 700px; color: #ccc; animation: fadeInUp 1.5s ease forwards; opacity: 0; }
+
+/* Dense Cards Grid */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 15px; width: 100%; max-width: 1100px; }
+
+/* Cards */
+.card { background: #1a1a1a; padding: 15px 20px; border-radius: 12px; text-align: left; transition: all 0.4s ease; transform: translateY(0); }
+.card:hover { transform: translateY(-10px) rotate(-1deg); box-shadow: 0 12px 30px rgba(255,148,194,0.5); }
+.card h3 { color: #ff94c2; margin-bottom: 8px; font-size: 1.2em; }
+.card p, .card span { color: #ccc; font-size: 0.95em; line-height: 1.5; }
+.card span { font-size: 0.85em; color: #aaa; }
+
+/* Tech Stack */
+.tech-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 10px; }
+.tech-item { background: #1a1a1a; padding: 8px 15px; border-radius: 10px; color: #ff94c2; font-weight: 500; transition: 0.3s; }
+.tech-item:hover { box-shadow: 0 8px 20px rgba(255,148,194,0.5); transform: translateY(-5px); }
+
+/* Animations */
+@keyframes fadeInUp { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+@keyframes slideInLeft { 0% { opacity: 0; transform: translateX(-50px); } 100% { opacity: 1; transform: translateX(0); } }
+@keyframes slideInRight { 0% { opacity: 0; transform: translateX(50px); } 100% { opacity: 1; transform: translateX(0); } }
+
+/* Sections tweaks for density */
+section { padding: 60px 20px; margin-top: -40px; }
+
+/* Footer */
+footer { text-align: center; padding: 30px 20px; background: #111; color: #888; font-size: 0.85em; }
+
+/* Overlap animation pseudo-effect */
+section::before {
+  content:""; position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;
+  background: linear-gradient(120deg, rgba(255,148,194,0.05), transparent 70%);
+  transform: skewY(-2deg);
+  z-index:0;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Portfolio</h1>
+  <nav>
+    <a href="#hero">Home</a>
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#tech">Tech Stack</a>
+    <a href="#roles">Roles</a>
+    <a href="#projects">Projects</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+
+
+
+<!-- Hero Section -->
+<section id="hero" style="
+  display:flex; 
+  justify-content:space-between; 
+  align-items:center; 
+  flex-wrap:wrap; 
+  min-height:100vh; 
+  padding:100px 40px 40px 40px; /* add top padding so navbar doesn't overlap */
+  box-sizing:border-box;
+">
+  <!-- Left: Text -->
+  <div style="flex:1; min-width:300px; animation: fadeInLeft 1s ease forwards;">
+    <h2 style="font-size:3em; color:#ff94c2; margin-bottom:15px;">Hello, I'm a Developer</h2>
+    <p style="font-size:1.2em; max-width:500px; color:#ccc; margin-bottom:20px;">I build interactive web experiences with pastel accents on dark themes. Smooth animations and engaging UI are my focus.</p>
+    <a href="#projects" style="display:inline-block; padding:12px 25px; background:#ff94c2; color:#0d0d0d; border-radius:8px; font-weight:500; transition:0.3s;">See Projects</a>
+  </div>
+
+  <!-- Right: Animation -->
+  <div style="
+    flex:1; 
+    min-width:300px; 
+    display:flex; 
+    justify-content:center; 
+    align-items:center; 
+    position:relative; 
+    height:400px; 
+    animation: fadeInRight 1s ease forwards;
+  ">
+    <!-- Animated floating shapes -->
+    <div style="width:80px; height:80px; background:rgba(255,148,194,0.6); border-radius:50%; position:absolute; top:20%; left:50%; transform:translate(-50%,0); animation: float1 4s ease-in-out infinite;"></div>
+    <div style="width:50px; height:50px; background:rgba(148, 114, 255,0.6); border-radius:50%; position:absolute; top:60%; left:70%; transform:translate(-50%,0); animation: float2 3s ease-in-out infinite;"></div>
+    <div style="width:60px; height:60px; background:rgba(255, 214, 255,0.5); border-radius:50%; position:absolute; top:40%; left:30%; transform:translate(-50%,0); animation: float3 5s ease-in-out infinite;"></div>
+  </div>
+</section>
+
+<!-- Animations -->
+<style>
+@keyframes fadeInLeft { 0% {opacity:0; transform:translateX(-50px);} 100% {opacity:1; transform:translateX(0);} }
+@keyframes fadeInRight { 0% {opacity:0; transform:translateX(50px);} 100% {opacity:1; transform:translateX(0);} }
+
+@keyframes float1 { 0%,100% { transform: translate(-50%,0) translateY(0); } 50% { transform: translate(-50%,0) translateY(-20px); } }
+@keyframes float2 { 0%,100% { transform: translate(-50%,0) translateY(0); } 50% { transform: translate(-50%,0) translateY(-15px); } }
+@keyframes float3 { 0%,100% { transform: translate(-50%,0) translateY(0); } 50% { transform: translate(-50%,0) translateY(-25px); } }
+
+/* Responsive fix */
+@media screen and (max-width: 850px) {
+  #hero { flex-direction: column; padding-top:120px; }
+  #hero div { margin-bottom:40px; }
+}
+</style>
+
+
+<!-- About -->
+<section id="about">
+  <h2>About Me</h2>
+  <p>Passionate developer focused on building responsive, visually engaging websites. I enjoy crafting smooth animations, modern UI/UX design, and interactive experiences that feel alive.</p>
+</section>
+
+<!-- Experience -->
+<section id="experience">
+  <h2>Experience</h2>
+  <div class="grid">
+    <div class="card" style="animation: slideInLeft 1s ease forwards;">
+      <h3>Frontend Developer - XYZ Company</h3>
+      <span>Jan 2023 - Present</span>
+      <p>Created responsive web apps with React and improved performance by 30% with animation-rich interfaces.</p>
+    </div>
+    <div class="card" style="animation: slideInRight 1s ease forwards;">
+      <h3>Intern - ABC Studio</h3>
+      <span>Jun 2022 - Dec 2022</span>
+      <p>Assisted in creating portfolio websites for clients, focusing on UI design and interactive features.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Tech Stack -->
+<section id="tech">
+  <h2>Tech Stack</h2>
+  <div class="tech-grid">
+    <div class="tech-item">HTML</div>
+    <div class="tech-item">CSS</div>
+    <div class="tech-item">JavaScript</div>
+    <div class="tech-item">React</div>
+    <div class="tech-item">Node.js</div>
+    <div class="tech-item">Express</div>
+    <div class="tech-item">MongoDB</div>
+    <div class="tech-item">Git</div>
+    <div class="tech-item">Tailwind</div>
+  </div>
+</section>
+
+<!-- Roles & Achievements -->
+<section id="roles">
+  <h2>Roles & Achievements</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Team Lead</h3>
+      <p>Led a 4-member team to deliver projects on time with collaborative workflow and interactive UI focus.</p>
+    </div>
+    <div class="card">
+      <h3>Hackathon Winner</h3>
+      <p>1st place in 48-hour hackathon for building a social media web app with modern UX.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Projects -->
+<section id="projects">
+  <h2>Projects</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Random Meme Generator</h3>
+      <p>Fun web app fetching random memes from API with pastel accents and animations on dark background.</p>
+    </div>
+    <div class="card">
+      <h3>Portfolio Website</h3>
+      <p>Modern responsive portfolio with interactive sections, hover animations, and dense layout.</p>
+    </div>
+    <div class="card">
+      <h3>Todo App</h3>
+      <p>Interactive Todo app with dark pastel UI and subtle animations to enhance UX.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Education -->
+<section id="education">
+  <h2>Education</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Bachelor of Technology - Computer Science</h3>
+      <span>XYZ University, 2021 - 2025</span>
+    </div>
+    <div class="card">
+      <h3>High School Diploma</h3>
+      <span>ABC High School, 2019 - 2021</span>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+  <h2>Contact Me</h2>
+  <p>Reach out via <a href="mailto:example@example.com">email</a> or connect on <a href="#">LinkedIn</a> / <a href="#">GitHub</a>. I’m open to collaborations and exciting projects.</p>
+</section>
+
+<footer>
+  &copy; 2025 Portfolio. All rights reserved.
+</footer>
+
+</body>
+</html>
