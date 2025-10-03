@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Benjamin Ugochukwu — Backend Developer (Python/Django)</title>
+  <meta name="description" content="Backend developer specializing in Python/Django with 2 years experience. Comfortable with Docker, GitHub Actions, and modern DevOps workflows." />
+  <meta property="og:title" content="Your Name — Backend Developer" />
+  <meta property="og:description" content="Python/Django backend dev (2 years). Docker & GitHub Actions. I build reliable APIs and ship fast." />
+  <meta property="og:type" content="website" />
+  <style>
+    :root{
+      --bg: #0b1020;
+      --card: #111831;
+      --muted: #9aa4bf;
+      --text: #e6e9f4;
+      --accent: #6d9cfb;
+      --accent-2: #7c7bff;
+      --ring: rgba(109,156,251,.35);
+      --shadow: 0 10px 30px rgba(8,15,40,.35);
+      --radius: 16px;
+    }
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg:#fafbff; --card:#ffffff; --muted:#5a627a; --text:#0f1222;
+        --accent:#245cff; --accent-2:#7c7bff; --ring:rgba(36,92,255,.25);
+        --shadow:0 10px 30px rgba(10,20,60,.12);
+      }
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      color:var(--text); background:
+        radial-gradient(1200px 600px at 80% -10%, rgba(124,123,255,.18), transparent 60%),
+        radial-gradient(1000px 500px at -10% 10%, rgba(36,92,255,.25), transparent 60%),
+        var(--bg);
+      line-height:1.6;
+    }
+    a{color:inherit; text-decoration:none}
+    .container{max-width:1100px; margin-inline:auto; padding:28px}
+    .nav{display:flex; align-items:center; justify-content:space-between; gap:16px}
+    .brand{font-weight:800; letter-spacing:.2px; font-size:1.1rem}
+    .pill{display:inline-flex; align-items:center; gap:.55rem; padding:.55rem .9rem; border:1px solid #2a365d; border-radius:999px; color:var(--muted); background:rgba(255,255,255,.03)}
+    .btn{display:inline-flex; align-items:center; gap:.55rem; padding:.9rem 1.1rem; border-radius:12px; font-weight:600; border:1px solid transparent; transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease}
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{background:linear-gradient(135deg, var(--accent), var(--accent-2)); color:white; box-shadow:var(--shadow)}
+    .btn-outline{border-color:#2a365d; color:var(--text); background:transparent}
+    .grid{display:grid; gap:20px}
+    .hero{
+      padding:56px 0 24px;
+      display:grid; gap:22px;
+      grid-template-columns: 1.3fr .7fr;
+    }
+    @media (max-width:900px){ .hero{grid-template-columns:1fr} }
+    .h1{font-size:clamp(2rem, 4.5vw, 3rem); line-height:1.1; margin:0; font-weight:900; letter-spacing:.3px}
+    .h1 .grad{background:linear-gradient(135deg,var(--accent) 0%, var(--accent-2) 60%); -webkit-background-clip:text; background-clip:text; color:transparent}
+    .lead{color:var(--muted); font-size:1.05rem; margin-top:.4rem}
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)) , var(--card);
+      border:1px solid rgba(120,140,200,.16);
+      border-radius:var(--radius);
+      padding:22px; box-shadow:var(--shadow);
+    }
+    .skills{grid-template-columns:repeat(auto-fit, minmax(180px, 1fr))}
+    .skill{
+      display:flex; align-items:center; gap:12px; padding:14px 14px; border-radius:12px;
+      background:rgba(255,255,255,.03); border:1px solid rgba(120,140,200,.14)
+    }
+    .skill svg{flex:0 0 22px}
+    .section{margin-top:40px}
+    .section h2{margin:.2rem 0 14px; font-size:1.4rem}
+    .muted{color:var(--muted)}
+    .projects{grid-template-columns:repeat(auto-fit, minmax(260px,1fr))}
+    .project{display:flex; flex-direction:column; gap:10px}
+    .project h3{margin:.2rem 0}
+    .project .meta{font-size:.9rem; color:var(--muted)}
+    .timeline{position:relative; padding-left:22px}
+    .timeline::before{content:""; position:absolute; left:7px; top:4px; bottom:4px; width:2px; background:linear-gradient(var(--accent), var(--accent-2))}
+    .t-item{position:relative; margin:12px 0; padding-left:14px}
+    .t-item::before{content:""; position:absolute; left:-1px; top:6px; width:12px; height:12px; border-radius:50%; background:var(--accent)}
+    .footer{display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between; margin-top:36px; padding-top:18px; border-top:1px dashed rgba(120,140,200,.25)}
+    .chips{display:flex; flex-wrap:wrap; gap:8px}
+    .chip{font-size:.85rem; padding:.38rem .6rem; border-radius:999px; border:1px solid rgba(120,140,200,.25); color:var(--muted); background:rgba(255,255,255,.03)}
+    .avatar{
+      width:110px; height:110px; border-radius:20px; border:1px solid rgba(120,140,200,.2);
+      background: radial-gradient(120px 60px at 70% 20%, rgba(255,255,255,.2), transparent),
+                  linear-gradient(135deg,#2b335a,#1c2342);
+      box-shadow:var(--shadow)
+    }
+    .links{display:flex; gap:10px; flex-wrap:wrap}
+    .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0}
+    .nowrap{white-space:nowrap}
+  </style>
+</head>
+<body>
+  <header class="container nav">
+    <div class="brand">Your Name</div>
+    <div class="links">
+      <a class="pill" href="#projects" aria-label="Jump to projects">Projects</a>
+      <a class="pill" href="#skills" aria-label="Jump to skills">Skills</a>
+      <a class="pill" href="#contact" aria-label="Jump to contact">Contact</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- HERO -->
+    <section class="hero">
+      <div>
+        <h1 class="h1">
+          Backend Developer <span class="grad">Python / Django</span>
+        </h1>
+        <p class="lead">
+          I’m a backend developer with <strong>2 years of experience</strong> building secure, well-tested APIs and services in
+          <strong>Python/Django</strong>. I’m comfortable with <strong>Docker</strong>, <strong>GitHub Actions</strong>, and modern DevOps
+          workflows that turn code into reliable deployments.
+        </p>
+        <div class="links" style="margin-top:12px">
+          <a class="btn btn-primary" href="mailto:you@example.com">
+            <!-- mail icon -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16v12H4z" stroke="currentColor" stroke-width="1.6"/><path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="1.6"/></svg>
+            Email me
+          </a>
+          <a class="btn btn-outline" href="https://github.com/Benji918" target="_blank" rel="noopener">
+            <!-- github -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a12 12 0 00-3.79 23.39c.6.11.82-.26.82-.58v-2.02c-3.34.73-4.04-1.61-4.04-1.61-.55-1.4-1.35-1.77-1.35-1.77-1.1-.75.08-.74.08-.74 1.22.09 1.86 1.26 1.86 1.26 1.08 1.86 2.83 1.32 3.52 1.01.11-.78.42-1.32.76-1.62-2.67-.31-5.47-1.34-5.47-5.95 0-1.31.47-2.38 1.25-3.22-.13-.31-.54-1.57.12-3.27 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 016 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.7.25 2.96.12 3.27.78.84 1.25 1.91 1.25 3.22 0 4.62-2.8 5.64-5.48 5.95.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.82.58A12 12 0 0012 .5z"/></svg>
+            GitHub
+          </a>
+          <a class="btn btn-outline" href="#" target="_blank" rel="noopener">Download CV</a>
+        </div>
+      </div>
+      <div style="display:flex; justify-content:flex-end; align-items:flex-start">
+        <div class="avatar" role="img" aria-label="Profile avatar placeholder"></div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section card" aria-labelledby="about-title">
+      <h2 id="about-title">About</h2>
+      <p class="muted">
+        I enjoy designing database schemas, writing clean business logic, and shipping production-ready APIs.
+        My go-to stack is <strong>Django / Django REST Framework</strong>, <strong>PostgreSQL</strong>, and <strong>Redis</strong>.
+        I containerise with <strong>Docker</strong> and automate CI/CD using <strong>GitHub Actions</strong>.
+        I work with <strong>Nginx</strong> reverse proxies and environment-based settings to ensure smooth deployments.
+      </p>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="section">
+      <h2>Skills</h2>
+      <div class="grid skills">
+        <div class="skill"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 20c0-5 12-5 12 0" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.8"/></svg> Python • Django • DRF</div>
+        <div class="skill"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 8h18" stroke="currentColor" stroke-width="1.8"/></svg> REST APIs • Auth • Testing</div>
+        <div class="skill"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 8l9-5 9 5v8l-9 5-9-5V8z" stroke="currentColor" stroke-width="1.8"/></svg> PostgreSQL • Redis</div>
+        <div class="skill"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M3 9h18M9 21V9" stroke="currentColor" stroke-width="1.8"/></svg> Docker • Compose</div>
+        <div class="skill"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.8"/></svg> GitHub Actions • CI/CD</div>
+        <div class="skill"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 20V8l8-4 8 4v12" stroke="currentColor" stroke-width="1.8"/><path d="M10 20v-6h4v6" stroke="currentColor" stroke-width="1.8"/></svg> Nginx • Linux • Bash</div>
+      </div>
+      <div class="chips" style="margin-top:12px">
+        <span class="chip">Celery</span>
+        <span class="chip">JWT/Auth</span>
+        <span class="chip">Async Tasks</span>
+        <span class="chip">Caching</span>
+        <span class="chip">Unit & API Tests</span>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section">
+      <h2>Selected Projects</h2>
+      <div class="grid projects">
+        <article class="card project">
+          <h3>Orders & Payments API</h3>
+          <p class="muted">A Django REST API for orders, vendors, and split payments. Includes JWT auth, rate limiting, Celery tasks, and PostgreSQL with migrations.</p>
+          <div class="meta">Python • Django • DRF • PostgreSQL • Celery • Docker</div>
+          <div class="links">
+            <a class="btn btn-outline" href="#" target="_blank" rel="noopener">Repo</a>
+            <a class="btn btn-outline" href="#" target="_blank" rel="noopener">Live Demo</a>
+          </div>
+        </article>
+        <article class="card project">
+          <h3>DevOps Pipeline</h3>
+          <p class="muted">CI/CD for a containerized Django app using GitHub Actions (build, test, security checks) and Docker images shipped to a registry, with zero-downtime deploys.</p>
+          <div class="meta">GitHub Actions • Docker • Nginx</div>
+          <div class="links">
+            <a class="btn btn-outline" href="#" target="_blank" rel="noopener">Pipeline YAML</a>
+          </div>
+        </article>
+        <article class="card project">
+          <h3>Analytics & Reporting</h3>
+          <p class="muted">Background jobs generating weekly business metrics and CSV exports, scheduled with Celery beat, cached with Redis.</p>
+          <div class="meta">Celery • Redis • CSV/Excel</div>
+          <div class="links">
+            <a class="btn btn-outline" href="#" target="_blank" rel="noopener">Docs</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section class="section card">
+      <h2>Experience</h2>
+      <div class="timeline">
+        <div class="t-item">
+          <strong>Backend Developer — Python/Django</strong> <span class="muted">• 2 years</span>
+          <ul class="muted" style="margin:.4rem 0">
+            <li>Designed REST APIs with Django/DRF; wrote tests and docs for stable releases.</li>
+            <li>Containerized services with Docker; created CI/CD pipelines with GitHub Actions.</li>
+            <li>Implemented auth (JWT), background jobs (Celery), and caching (Redis).</li>
+            <li>Deployed behind Nginx with environment-specific settings and secrets.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section card" aria-labelledby="contact-title">
+      <h2 id="contact-title">Contact</h2>
+      <p class="muted">I’m open to backend roles, freelance API work, and DevOps-friendly Python projects.</p>
+      <div class="links" style="margin-top:8px">
+        <a class="btn btn-primary" href="mailto:you@kodiugos@gmail.com">kodiugos@gmail.com</a>
+        <a class="btn btn-outline" href="https://www.linkedin.com/in/ugobenjamin/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn btn-outline" href="https://github.com/Benji918" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <span class="muted">© <span id="y"></span> Your Name</span>
+      <div class="chips">
+        <span class="chip">Python</span>
+        <span class="chip">Django</span>
+        <span class="chip">Docker</span>
+        <span class="chip nowrap">GitHub Actions</span>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // Tiny enhancement: current year in footer
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
