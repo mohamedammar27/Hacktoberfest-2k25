@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #e0e0e0;
+            background: #0a0a23;
+        }
+
+        header {
+            background: #0a0a23;
+            color: #fff;
+            padding: 1.5rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        nav .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #d4af37;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 2.5rem;
+        }
+
+        nav ul li a {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #2ecc71;
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #d4af37;
+        }
+
+        section {
+            padding: 6rem 2rem;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #hero {
+            background: linear-gradient(135deg, #0a0a23, #1a1a3d);
+            text-align: center;
+            color: #fff;
+        }
+
+        #hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        #hero p {
+            font-size: 1.4rem;
+            margin-bottom: 2.5rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: #d4af37;
+            color: #0a0a23;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn:hover {
+            background: #b8972e;
+            transform: translateY(-2px);
+        }
+
+        #about, #education, #projects, #skills, #testimonials, #contact {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: #d4af37;
+        }
+
+        .project-grid, .education-grid, .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .project-card, .education-card, .testimonial-card {
+            background: #1a1a3d;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-card:hover, .education-card:hover, .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-card img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-card h3, .education-card h3, .testimonial-card h3 {
+            font-size: 1.8rem;
+            color: #2ecc71;
+            margin-bottom: 1rem;
+        }
+
+        .project-card p, .education-card p, .testimonial-card p {
+            font-size: 1.1rem;
+            color: #b0b0b0;
+        }
+
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .skill {
+            background: #2ecc71;
+            color: #fff;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .skill:hover {
+            transform: scale(1.05);
+        }
+
+        #contact form {
+            max-width: 700px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        #contact input, #contact textarea {
+            padding: 1rem;
+            border: 1px solid #2ecc71;
+            border-radius: 10px;
+            background: #1a1a3d;
+            color: #e0e0e0;
+            font-size: 1.1rem;
+        }
+
+        #contact input:focus, #contact textarea:focus {
+            outline: none;
+            border-color: #d4af37;
+        }
+
+        #contact button {
+            padding: 1rem;
+            background: #d4af37;
+            color: #0a0a23;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        #contact button:hover {
+            background: #b8972e;
+        }
+
+        footer {
+            background: #0a0a23;
+            color: #e0e0e0;
+            text-align: center;
+            padding: 2rem 0;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: #0a0a23;
+                padding: 1.5rem 0;
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            #hero h1 {
+                font-size: 2.5rem;
+            }
+
+            #hero p {
+                font-size: 1.2rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">John Doe</div>
+            <ul>
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="mobile-menu">☰</div>
+        </nav>
+    </header>
+
+    <section id="hero">
+        <div>
+            <h1>John Doe - Creative Developer</h1>
+            <p>Building cutting-edge web solutions with a focus on performance, accessibility, and stunning design. Let's create something extraordinary together.</p>
+            <a href="#contact" class="btn">Hire Me</a>
+        </div>
+    </section>
+
+    <section id="about">
+        <div>
+            <h2>About Me</h2>
+            <p>I'm a full-stack developer with over 5 years of experience crafting scalable and user-centric web applications. My expertise spans front-end and back-end development, with a passion for leveraging modern frameworks and cloud technologies to deliver innovative solutions that drive business value.</p>
+        </div>
+    </section>
+
+    <section id="education">
+        <div>
+            <h2>Education</h2>
+            <div class="education-grid">
+                <div class="education-card">
+                    <h3>Master's in Computer Science</h3>
+                    <p>University of Tech, 2018-2020<br>Graduated with honors, specializing in software engineering and cloud computing.</p>
+                </div>
+                <div class="education-card">
+                    <h3>Bachelor's in Information Technology</h3>
+                    <p>State College, 2014-2018<br>Focused on web development and database systems, with a minor in UX design.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div>
+            <h2>Featured Projects</h2>
+            <div class="project-grid">
+                <div class="project-card">
+                    <img src="https://picsum.photos/id/1015/600/400" alt="EcoShop">
+                    <h3>EcoShop</h3>
+                    <p>A sustainable e-commerce platform with a custom CMS, secure payment gateways, and responsive design. Built with React, Node.js, and MongoDB, achieving a 40% increase in user engagement.</p>
+                </div>
+                <div class="project-card">
+                    <img src="https://picsum.photos/id/1018/600/400" alt="FitTrack">
+                    <h3>FitTrack</h3>
+                    <p>A fitness tracking app with real-time analytics, goal-setting, and wearable device integration. Developed using Vue.js and Firebase, with a focus on seamless data synchronization.</p>
+                </div>
+                <div class="project-card">
+                    <img src="https://picsum.photos/id/1025/600/400" alt="PortfolioHub">
+                    <h3>PortfolioHub</h3>
+                    <p>A dynamic platform for creatives to showcase their work with customizable templates and SEO optimization. Built with Next.js and GraphQL for a fast and scalable experience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <div>
+            <h2>Technical Skills</h2>
+            <div class="skills-grid">
+                <span class="skill">React</span>
+                <span class="skill">Node.js</span>
+                <span class="skill">JavaScript</span>
+                <span class="skill">TypeScript</span>
+                <span class="skill">HTML5</span>
+                <span class="skill">CSS3</span>
+                <span class="skill">MongoDB</span>
+                <span class="skill">AWS</span>
+                <span class="skill">Docker</span>
+                <span class="skill">Git</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials">
+        <div>
+            <h2>Testimonials</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <h3>Jane Smith, CEO</h3>
+                    <p>"John's expertise in web development transformed our online presence. His attention to detail and innovative solutions were game-changers for our business."</p>
+                </div>
+                <div class="testimonial-card">
+                    <h3>Mike Johnson, CTO</h3>
+                    <p>"Working with John was a pleasure. His ability to deliver high-quality, scalable applications on time is unmatched. Highly recommend!"</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div>
+            <h2>Get in Touch</h2>
+            <form>
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea placeholder="Your Message" rows="6" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 John Doe. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Mobile menu toggle
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const navList = document.querySelector('nav ul');
+
+        mobileMenu.addEventListener('click', () => {
+            navList.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
