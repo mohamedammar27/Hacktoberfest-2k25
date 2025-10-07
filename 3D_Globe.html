@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Particle Globe - Hacktoberfest 2K25</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            background: linear-gradient(135deg, #00030f 0%, #2d124817 100%);
+        }
+        
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+        
+        .info-panel {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 300px;
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+        
+        .info-panel h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #5a065a, #c00670);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .info-panel p {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        
+        .controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 30px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            z-index: 10;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 69, 0, 0.9);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+            animation: pulse 2s infinite;
+            z-index: 10;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <div class="info-panel">
+        <h1>🌍 Particle Globe</h1>
+        <p>🎮 <strong>Drag</strong> to rotate</p>
+        <p>🖱️ <strong>Scroll</strong> to zoom</p>
+        <p>✨ Watch particles dance!</p>
+        <p style="margin-top: 15px; font-size: 12px; opacity: 0.8;">
+            
+        </p>
+    </div>
+    
+    
+    <div class="controls">
+        <button class="btn" id="colorBtn">🎨 Change Color</button>
+        <button class="btn" id="explodeBtn">💥 Explode</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        let scene, camera, renderer, particles, particleSystem;
+        let mouseX = 0, mouseY = 0;
+        let isDragging = false;
+        let previousMouseX = 0, previousMouseY = 0;
+        let autoRotate = true;
+        let explosionActive = false;
+        let currentColorScheme = 0;
+        
+        const colorSchemes = [
+            [0x667eea, 0x764ba2, 0xf093fb],
+            [0x00F260, 0x0575E6, 0x00d2ff],
+            [0xff6b6b, 0xfeca57, 0xff9ff3],
+            [0x11998e, 0x38ef7d, 0x00d4ff]
+        ];
+
+        function init() {
+            scene = new THREE.Scene();
+            
+            camera = new THREE.PerspectiveCamera(
+                75,
+                window.innerWidth / window.innerHeight,
+                0.1,
+                1000
+            );
+            camera.position.z = 400;
+            
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x000000, 0);
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
+            
+            createParticleSystem();
+            
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            
+            const pointLight = new THREE.PointLight(0xffffff, 1);
+            pointLight.position.set(100, 100, 100);
+            scene.add(pointLight);
+            
+            // Mouse events for dragging
+            renderer.domElement.addEventListener('mousedown', onMouseDown);
+            renderer.domElement.addEventListener('mousemove', onMouseMove);
+            renderer.domElement.addEventListener('mouseup', onMouseUp);
+            renderer.domElement.addEventListener('mouseleave', onMouseUp);
+            
+            // Wheel event for zooming
+            renderer.domElement.addEventListener('wheel', onWheel, { passive: false });
+            
+            window.addEventListener('resize', onWindowResize);
+            
+            // Button events
+            document.getElementById('colorBtn').addEventListener('click', changeColor);
+            document.getElementById('explodeBtn').addEventListener('click', explode);
+            
+            animate();
+        }
+        
+        function createParticleSystem() {
+            const geometry = new THREE.BufferGeometry();
+            const particleCount = 5000;
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+            const sizes = new Float32Array(particleCount);
+            
+            const radius = 150;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.acos(2 * Math.random() - 1);
+                
+                const x = radius * Math.sin(phi) * Math.cos(theta);
+                const y = radius * Math.sin(phi) * Math.sin(theta);
+                const z = radius * Math.cos(phi);
+                
+                positions[i * 3] = x;
+                positions[i * 3 + 1] = y;
+                positions[i * 3 + 2] = z;
+                
+                const color = new THREE.Color(colorSchemes[currentColorScheme][i % 3]);
+                colors[i * 3] = color.r;
+                colors[i * 3 + 1] = color.g;
+                colors[i * 3 + 2] = color.b;
+                
+                sizes[i] = Math.random() * 3 + 1;
+            }
+            
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+            
+            const material = new THREE.PointsMaterial({
+                size: 3,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending
+            });
+            
+            if (particleSystem) {
+                scene.remove(particleSystem);
+            }
+            
+            particleSystem = new THREE.Points(geometry, material);
+            particles = geometry.attributes.position.array;
+            scene.add(particleSystem);
+        }
+        
+        function onMouseDown(event) {
+            isDragging = true;
+            previousMouseX = event.clientX;
+            previousMouseY = event.clientY;
+        }
+        
+        function onMouseMove(event) {
+            if (isDragging) {
+                const deltaX = event.clientX - previousMouseX;
+                const deltaY = event.clientY - previousMouseY;
+                
+                particleSystem.rotation.y += deltaX * 0.005;
+                particleSystem.rotation.x += deltaY * 0.005;
+                
+                previousMouseX = event.clientX;
+                previousMouseY = event.clientY;
+            }
+        }
+        
+        function onMouseUp() {
+            isDragging = false;
+        }
+        
+        function onWheel(event) {
+            event.preventDefault();
+            
+            const zoomSpeed = 0.1;
+            const delta = event.deltaY;
+            
+            camera.position.z += delta * zoomSpeed;
+            
+            // Limit zoom
+            camera.position.z = Math.max(200, Math.min(600, camera.position.z));
+        }
+        
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            if (autoRotate && !explosionActive && !isDragging) {
+                particleSystem.rotation.y += 0.001;
+                particleSystem.rotation.x += 0.0005;
+            }
+            
+            if (explosionActive) {
+                const positions = particleSystem.geometry.attributes.position.array;
+                for (let i = 0; i < positions.length; i += 3) {
+                    positions[i] *= 1.02;
+                    positions[i + 1] *= 1.02;
+                    positions[i + 2] *= 1.02;
+                }
+                particleSystem.geometry.attributes.position.needsUpdate = true;
+            }
+            
+            const time = Date.now() * 0.001;
+            const positions = particleSystem.geometry.attributes.position.array;
+            for (let i = 0; i < positions.length; i += 3) {
+                const x = positions[i];
+                const y = positions[i + 1];
+                const z = positions[i + 2];
+                
+                positions[i + 1] = y + Math.sin(time + x * 0.01) * 0.3;
+            }
+            particleSystem.geometry.attributes.position.needsUpdate = true;
+            
+            renderer.render(scene, camera);
+        }
+        
+        function changeColor() {
+            currentColorScheme = (currentColorScheme + 1) % colorSchemes.length;
+            createParticleSystem();
+        }
+        
+        function explode() {
+            if (explosionActive) return;
+            
+            explosionActive = true;
+            setTimeout(() => {
+                createParticleSystem();
+                explosionActive = false;
+            }, 2000);
+        }
+        
+        init();
+    </script>
+</body>
+</html>
