@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hariharan | MERN Stack Developer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #f0f0f0;
+        }
+
+        /* Custom animation for fade-in effect on scroll */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Typing cursor effect */
+        .typed-cursor {
+            opacity: 1;
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Project card glassmorphism effect */
+        .project-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Mobile Nav background */
+        .mobile-nav {
+             background: rgba(10, 10, 10, 0.8);
+             backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- Header -->
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#home" class="text-2xl font-bold text-white">Hariharan</a>
+            <!-- Desktop Nav -->
+            <div class="hidden md:flex space-x-8">
+                <a href="#about" class="text-gray-300 hover:text-white transition">About</a>
+                <a href="#tech" class="text-gray-300 hover:text-white transition">Tech Stack</a>
+                <a href="#projects" class="text-gray-300 hover:text-white transition">Projects</a>
+                <a href="#contact" class="text-gray-300 hover:text-white transition">Contact</a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+         <!-- Mobile Nav Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mobile-nav">
+            <a href="#about" class="block py-2 px-6 text-sm text-gray-200 hover:bg-gray-800">About</a>
+            <a href="#tech" class="block py-2 px-6 text-sm text-gray-200 hover:bg-gray-800">Tech Stack</a>
+            <a href="#projects" class="block py-2 px-6 text-sm text-gray-200 hover:bg-gray-800">Projects</a>
+            <a href="#contact" class="block py-2 px-6 text-sm text-gray-200 hover:bg-gray-800">Contact</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Home Section -->
+        <section id="home" class="h-screen flex items-center justify-center text-center">
+            <div class="z-10">
+                <h1 class="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-4">
+                    Hi, I'm Hariharan
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300">
+                    I'm a <span id="typed-text" class="font-semibold text-white"></span><span class="typed-cursor">|</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 lg:py-32 fade-in-section">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold text-center mb-12">About Me</h2>
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <div class="md:w-1/3 text-center">
+                        <img src="https://placehold.co/400x400/1a1a1a/ffffff?text=Hari" alt="Hariharan" class="rounded-full mx-auto w-48 h-48 md:w-64 md:h-64 border-4 border-gray-700">
+                    </div>
+                    <div class="md:w-2/3 text-lg text-gray-300 text-center md:text-left">
+                        <p class="mb-4">
+                            I am a passionate and driven developer specializing in the MERN stack. As an Undergraduate student, I am constantly exploring new technologies and honing my skills to build efficient, scalable, and user-friendly web applications.
+                        </p>
+                        <p>
+                            My goal is to leverage my knowledge to solve real-world problems and contribute to innovative projects. I am a quick learner, a collaborative team player, and I'm currently seeking opportunities to apply my skills in a professional environment.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tech Stack Section -->
+        <section id="tech" class="py-20 lg:py-32 bg-black fade-in-section">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold text-center mb-12">My Tech Stack</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+                    <!-- MongoDB -->
+                    <div class="flex flex-col items-center p-6 bg-gray-900 rounded-lg transition-transform hover:scale-105">
+                        <h3 class="text-xl font-semibold">MongoDB</h3>
+                    </div>
+                    <!-- Express.js -->
+                    <div class="flex flex-col items-center p-6 bg-gray-900 rounded-lg transition-transform hover:scale-105">
+                        <h3 class="text-xl font-semibold">Express.js</h3>
+                    </div>
+                    <!-- React -->
+                    <div class="flex flex-col items-center p-6 bg-gray-900 rounded-lg transition-transform hover:scale-105">
+                        <h3 class="text-xl font-semibold">React</h3>
+                    </div>
+                    <!-- Node.js -->
+                    <div class="flex flex-col items-center p-6 bg-gray-900 rounded-lg transition-transform hover:scale-105">
+                        <h3 class="text-xl font-semibold">Node.js</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-20 lg:py-32 fade-in-section">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold text-center mb-12">My Projects</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Project 1 -->
+                    <div class="project-card rounded-lg overflow-hidden">
+                        <img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Project+One" alt="Project 1" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2">E-commerce Platform</h3>
+                            <p class="text-gray-400 mb-4">A full-featured e-commerce site built with the MERN stack, including payment integration and an admin dashboard.</p>
+                            <a href="#" class="text-white font-semibold hover:underline">View Details &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Project 2 -->
+                    <div class="project-card rounded-lg overflow-hidden">
+                        <img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Project+Two" alt="Project 2" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2">Real-time Chat App</h3>
+                            <p class="text-gray-400 mb-4">A responsive chat application using Socket.IO, Node.js, and React for instant messaging and user presence.</p>
+                             <a href="#" class="text-white font-semibold hover:underline">View Details &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Project 3 -->
+                    <div class="project-card rounded-lg overflow-hidden">
+                        <img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Project+Three" alt="Project 3" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2">Task Management API</h3>
+                            <p class="text-gray-400 mb-4">A RESTful API for a task manager with user authentication, built with Node.js, Express, and MongoDB.</p>
+                             <a href="#" class="text-white font-semibold hover:underline">View Details &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 lg:py-32 bg-black fade-in-section">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl font-bold mb-4">Get In Touch</h2>
+                <p class="text-gray-400 mb-8 max-w-2xl mx-auto">I'm currently open to new opportunities and collaborations. Feel free to reach out to me via email or connect with me on social media.</p>
+                <a href="mailto:email@example.com" class="inline-block bg-white text-black font-bold py-3 px-8 rounded-lg text-lg hover:bg-gray-300 transition mb-10">Say Hello</a>
+                <div class="flex justify-center space-x-6">
+                    <!-- LinkedIn -->
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <svg class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                    <!-- GitHub -->
+                     <a href="#" class="text-gray-400 hover:text-white transition">
+                        <svg class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="border-t border-gray-800 py-6">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            <p>&copy; 2024 Hariharan. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Mobile Menu Toggle ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            // Close mobile menu on link click
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // --- Header Background on Scroll ---
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('bg-black', 'bg-opacity-70', 'backdrop-blur-sm', 'shadow-lg');
+                } else {
+                    header.classList.remove('bg-black', 'bg-opacity-70', 'backdrop-blur-sm', 'shadow-lg');
+                }
+            });
+
+            // --- Typing Animation ---
+            const typedTextSpan = document.getElementById("typed-text");
+            const textArray = ["MERN Stack Developer", "Web Enthusiast", "Undergraduate", "Lifelong Learner"];
+            const typingDelay = 100;
+            const erasingDelay = 50;
+            const newTextDelay = 2000; // Delay between current and next text
+            let textArrayIndex = 0;
+            let charIndex = 0;
+
+            function type() {
+                if (charIndex < textArray[textArrayIndex].length) {
+                    typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex);
+                    charIndex++;
+                    setTimeout(type, typingDelay);
+                } else {
+                    setTimeout(erase, newTextDelay);
+                }
+            }
+
+            function erase() {
+                if (charIndex > 0) {
+                    typedTextSpan.textContent = textArray[textArrayIndex].substring(0, charIndex - 1);
+                    charIndex--;
+                    setTimeout(erase, erasingDelay);
+                } else {
+                    textArrayIndex++;
+                    if (textArrayIndex >= textArray.length) textArrayIndex = 0;
+                    setTimeout(type, typingDelay + 1100);
+                }
+            }
+            
+            setTimeout(type, newTextDelay);
+
+            // --- Fade-in on Scroll Animation ---
+            const sections = document.querySelectorAll('.fade-in-section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            // --- Smooth scrolling for anchor links ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
