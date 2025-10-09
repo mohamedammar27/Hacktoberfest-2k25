@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catch the Dot</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #0e0e0e;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      color: #fff;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      color: #fff;
+      font-size: 2rem;
+      text-shadow: 0 0 10px #ff9ff3;
+    }
+
+    #game-container {
+      position: relative;
+      width: 600px;
+      height: 400px;
+      background: #1a1a1a;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 0 20px #764ba2;
+    }
+
+    #dot {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #ff9ff3;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+    }
+
+    #score-board {
+      margin-top: 15px;
+      font-size: 1.2rem;
+      color: #c6ffdd;
+    }
+
+    #timer {
+      font-size: 1rem;
+      margin-top: 5px;
+      color: #00d2ff;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 25px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(118, 75, 162, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <h1>Catch the Dot 🎯</h1>
+  <div id="game-container">
+    <div id="dot"></div>
+  </div>
+  <div id="score-board">Score: 0</div>
+  <div id="timer">Time Left: 30s</div>
+  <button id="restartBtn">Restart Game</button>
+
+  <script>
+    const dot = document.getElementById('dot');
+    const container = document.getElementById('game-container');
+    const scoreBoard = document.getElementById('score-board');
+    const timerEl = document.getElementById('timer');
+    const restartBtn = document.getElementById('restartBtn');
+
+    let score = 0;
+    let timeLeft = 30;
+    let gameInterval, timerInterval;
+
+    function moveDot() {
+      const maxX = container.clientWidth - dot.offsetWidth;
+      const maxY = container.clientHeight - dot.offsetHeight;
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
+      dot.style.left = `${x}px`;
+      dot.style.top = `${y}px`;
+
+      // random pastel color
+      const pastelColors = ['#ff9ff3', '#c6ffdd', '#00d2ff', '#feca57', '#48dbfb', '#5f27cd'];
+      dot.style.background = pastelColors[Math.floor(Math.random() * pastelColors.length)];
+      dot.style.transform = `scale(${0.8 + Math.random() * 0.4})`;
+    }
+
+    function startGame() {
+      score = 0;
+      timeLeft = 30;
+      scoreBoard.textContent = `Score: ${score}`;
+      timerEl.textContent = `Time Left: ${timeLeft}s`;
+
+      moveDot();
+      dot.style.display = 'block';
+
+      gameInterval = setInterval(moveDot, 800);
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        timerEl.textContent = `Time Left: ${timeLeft}s`;
+        if (timeLeft <= 0) {
+          clearInterval(gameInterval);
+          clearInterval(timerInterval);
+          dot.style.display = 'none';
+          alert(`Time's up! Your final score: ${score}`);
+        }
+      }, 1000);
+    }
+
+    dot.addEventListener('click', () => {
+      score++;
+      scoreBoard.textContent = `Score: ${score}`;
+      moveDot();
+    });
+
+    restartBtn.addEventListener('click', () => {
+      clearInterval(gameInterval);
+      clearInterval(timerInterval);
+      startGame();
+    });
+
+    // Start game on load
+    startGame();
+  </script>
+</body>
+</html>
