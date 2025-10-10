@@ -1,0 +1,36 @@
+body {
+  background: linear-gradient(to bottom, #70c5ce, #ffffff);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: "Poppins", sans-serif;
+}
+
+.game-wrapper {
+  text-align: center;
+}
+
+.title {
+  color: #2c3e50;
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+canvas {
+  background: #4ec0ca;
+  border: 3px solid #2c3e50;
+  border-radius: 12px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+  width: 90vw;
+  max-width: 420px;
+  height: 70vh;
+  max-height: 600px;
+}
+
+.instructions {
+  font-size: 16px;
+  color: #2c3e50;
+  margin-top: 8px;
+}
