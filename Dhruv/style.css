@@ -1,0 +1,67 @@
+body {
+  background: radial-gradient(circle at top, #1e293b, #0f172a);
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.game-container {
+  text-align: center;
+  width: 400px;
+  position: relative;
+}
+
+#game-area {
+  position: relative;
+  width: 100%;
+  height: 500px; /* was 400px */
+  border: 2px solid #38bdf8;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+.word {
+  position: absolute;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #facc15;
+  text-shadow: 0 0 5px #facc15;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+
+#word-input {
+  width: 90%;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  text-align: center;
+}
+
+#restart-btn {
+  background: #38bdf8;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #0f172a;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.3s;
+}
+
+#restart-btn:hover {
+  background: #0ea5e9;
+}
