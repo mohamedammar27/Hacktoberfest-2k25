@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rock Paper Scissors 2-Player</title>
+<style>
+body { background:#000; color:#fff; font-family:'Poppins',sans-serif; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; }
+h1 { color:#ff9bb3; }
+button { margin:5px; padding:10px 20px; border:none; border-radius:8px; background:#ff9bb3; color:#000; cursor:pointer; font-size:1rem; }
+button:hover { background:#ff5a82; }
+#result { margin-top:15px; font-size:1.2rem; }
+</style>
+</head>
+<body>
+
+<h1>Rock Paper Scissors ✊✋✌️ (2 Players)</h1>
+
+<div id="instructions">Player 1: Choose your move</div>
+<div>
+  <button onclick="chooseMove('rock')">✊ Rock</button>
+  <button onclick="chooseMove('paper')">✋ Paper</button>
+  <button onclick="chooseMove('scissors')">✌️ Scissors</button>
+</div>
+
+<p id="result"></p>
+<p>Player 1 Score: <span id="score1">0</span> | Player 2 Score: <span id="score2">0</span></p>
+
+<script>
+let turn = 1;
+let p1Move = '';
+let p2Move = '';
+let score1 = 0, score2 = 0;
+
+function chooseMove(move){
+  if(turn === 1){
+    p1Move = move;
+    document.getElementById('instructions').innerText = 'Player 2: Choose your move';
+    turn = 2;
+  } else {
+    p2Move = move;
+    playRound();
+    turn = 1;
+    document.getElementById('instructions').innerText = 'Player 1: Choose your move';
+  }
+}
+
+function playRound(){
+  let result = '';
+  if(p1Move === p2Move) result = "It's a Draw!";
+  else if(
+    (p1Move==='rock' && p2Move==='scissors') ||
+    (p1Move==='paper' && p2Move==='rock') ||
+    (p1Move==='scissors' && p2Move==='paper')
+  ){
+    result = 'Player 1 Wins!';
+    score1++;
+  } else {
+    result = 'Player 2 Wins!';
+    score2++;
+  }
+  document.getElementById('result').innerText = `${result} (P1: ${p1Move} vs P2: ${p2Move})`;
+  document.getElementById('score1').innerText = score1;
+  document.getElementById('score2').innerText = score2;
+}
+</script>
+
+</body>
+</html>

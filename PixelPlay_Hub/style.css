@@ -1,0 +1,106 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: #000; /* pure black background */
+  color: #eee; /* default text */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  background: #111; /* slightly lighter than black */
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(255,255,255,0.05);
+  border-bottom: 2px solid #ff9bb3; /* soft pink accent */
+}
+
+header h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #ff9bb3; /* pink header */
+}
+
+header input {
+  padding: 12px 15px;
+  width: 60%;
+  max-width: 400px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  outline: none;
+  background: #222; /* dark grey input */
+  color: #eee;
+}
+
+header input::placeholder {
+  color: #aaa;
+}
+
+main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  padding: 30px;
+}
+
+.game-card {
+  background: #111; /* card slightly lighter than background */
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 6px 15px rgba(255,182,193,0.2); /* soft pink shadow */
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  border: 2px solid #333;
+}
+
+.game-card:hover {
+  transform: translateY(-5px);
+  border: 2px solid #ff9bb3;
+  box-shadow: 0 10px 20px rgba(255,182,193,0.4);
+  background: #1a1a1a;
+}
+
+.game-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+  color: #fff; /* bright title */
+}
+
+.game-card p {
+  font-size: 0.95rem;
+  color: #ccc;
+  margin-bottom: 8px;
+}
+
+.game-card a {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: #ff9bb3; /* pink button */
+  color: #000; /* black text on pink */
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.game-card a:hover {
+  background: #ff5a82; /* darker pink on hover */
+}
+
+footer {
+  text-align: center;
+  background: #111;
+  padding: 15px;
+  border-top: 2px solid #ff9bb3;
+  font-size: 0.9rem;
+  color: #aaa;
+}
