@@ -1,0 +1,371 @@
+
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Modern Tic Tac Toe</title>
+  <style>
+    :root{
+      --bg1: #0f172a; /* deep navy */
+      --bg2: #071129; /* darker blue */
+      --accent-a: #ff5cce; /* violet */
+      --accent-b: #a74488; /* cyan */
+      --glass: rgba(255,255,255,0.06);
+      --muted: rgba(255,255,255,0.65);
+      --success:    #e0007b;
+      --danger: #cb41a2;
+      --card-radius: 18px;
+    }
+
+    /* Page background */
+    html,body{height:100%;}
+    body{
+      margin:0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(124,92,255,0.12), transparent 8%),
+                  radial-gradient(1000px 500px at 90% 90%, rgba(0,212,255,0.06), transparent 10%),
+                  linear-gradient(180deg,var(--bg1),var(--bg2));
+      display:flex; align-items:center; justify-content:center; padding:40px; color: #edf2ff;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+
+    .container{
+      width: min(980px, 96%);
+      display:grid; grid-template-columns: 1fr 380px; gap:28px; align-items:start;
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border-radius: var(--card-radius); padding:22px; box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+      backdrop-filter: blur(6px) saturate(120%);
+    }
+
+    header{display:flex; gap:14px; align-items:center; margin-bottom:12px}
+    .logo{
+      width:64px; height:64px; border-radius:16px; display:grid; place-items:center; font-weight:700; font-size:18px;
+      background: linear-gradient(135deg,var(--accent-a),var(--accent-b)); box-shadow: 0 6px 18px rgba(2,6,23,0.45);
+      transform: rotate(-6deg);
+    }
+    h1{font-size:20px; margin:0}
+    p.lead{margin:0; color:var(--muted); font-size:13px}
+
+    /* Game board area */
+    .board-wrap{display:flex; flex-direction:column; gap:16px; align-items:center}
+    .board{
+      width: 420px; height:420px; display:grid; grid-template-columns: repeat(3,1fr); gap:16px;
+      padding:16px; border-radius:18px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+    }
+    .cell{
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+      border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:68px; font-weight:800;
+      cursor:pointer; user-select:none; transition: transform .12s ease, box-shadow .12s ease;
+      color: rgba(255,255,255,0.94);
+      position:relative; overflow:hidden;
+    }
+    .cell:after{content:''; position:absolute; inset:0; border-radius:inherit; box-shadow: 0 6px 18px rgba(2,6,23,0.45) inset; opacity:0; transition:opacity .18s}
+    .cell:hover{transform: translateY(-4px) scale(1.01)}
+    .cell:hover:after{opacity:0.06}
+    .cell.disabled{cursor:not-allowed; opacity:0.9; transform:none}
+
+    .x{color:linear-gradient(90deg,var(--accent-a),var(--accent-b));}
+    .o{color:var(--accent-b)}
+
+    /* small UI */
+    .sidebar{display:flex; flex-direction:column; gap:16px}
+    .card{padding:16px; border-radius:12px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));}
+    .status{font-size:14px; display:flex; gap:8px; align-items:center}
+    .turn-bubble{display:inline-grid; place-items:center; width:44px; height:44px; border-radius:10px; font-weight:700; font-size:18px;
+      background: linear-gradient(135deg,var(--accent-a),var(--accent-b)); box-shadow: 0 6px 18px rgba(124,92,255,0.12)}
+
+    .controls{display:flex; gap:10px; margin-top:6px}
+    button.btn{border:0; padding:10px 12px; border-radius:12px; cursor:pointer; font-weight:600}
+    button.btn.ghost{background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.04)}
+    button.btn.primary{background:linear-gradient(90deg,var(--accent-b),var(--accent-a)); color:#06152a}
+
+    .score{display:flex; gap:12px; align-items:center; font-weight:700}
+    .score .item{display:flex; flex-direction:column; align-items:center; min-width:72px}
+    .score .value{font-size:22px}
+
+    /* winning line */
+    .win-line{position:absolute; height:6px; background: linear-gradient(90deg,var(--success), #fff); border-radius:6px; transform-origin:center; box-shadow:0 6px 18px rgba(0,0,0,0.45)}
+
+    /* celebration particles */
+    .confetti{position:fixed; left:0; top:0; pointer-events:none; width:100%; height:100%; overflow:hidden}
+    .confetti .p{position:absolute; width:10px; height:18px; opacity:0.95; border-radius:2px; transform-origin:center;}
+
+    footer{margin-top:12px; color:var(--muted); font-size:12px; text-align:center}
+
+    /* small responsive */
+    @media (max-width:900px){
+      .container{grid-template-columns: 1fr;}
+      .board{width: min(92vw,420px); height: min(92vw,420px)}
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <header>
+        <div class="logo">T3</div>
+        <div>
+          <h1>Tic Tac Toe</h1>
+        </div>
+      </header>
+
+      <div class="board-wrap" aria-live="polite">
+        <div style="position:relative; display:flex; justify-content:center;">
+          <div id="board" class="board" role="grid" aria-label="Tic Tac Toe board"></div>
+          <!-- win line element inserted dynamically -->
+        </div>
+
+        <div style="display:flex; gap:12px; align-items:center;">
+          <div class="card" style="display:flex; gap:10px; align-items:center;">
+            <div style="font-weight:700">Mode</div>
+            <div style="margin-left:6px; color:var(--muted); font-size:13px">Local — 2 players</div>
+          </div>
+
+          <div class="card" style="padding:10px 14px; display:flex; align-items:center; gap:10px">
+            <div style="font-size:13px; color:var(--muted)">Legend</div>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <div style="width:36px; height:36px; border-radius:8px; display:grid; place-items:center; background:linear-gradient(135deg,var(--accent-a),var(--accent-b)); font-weight:700">X</div>
+              <div style="width:36px; height:36px; border-radius:8px; display:grid; place-items:center; background:linear-gradient(135deg,#cb2ba1,#710d44); font-weight:700">O</div>
+            </div>
+          </div>
+        </div>
+
+        <footer>Tip: Use arrow keys to move focus and press Enter to mark a cell.</footer>
+      </div>
+    </div>
+
+    <aside class="panel sidebar">
+      <div class="card">
+        <div class="status">
+          <div style="flex:1">
+            <div style="font-size:13px; color:var(--muted)">Current turn</div>
+            <div style="display:flex; align-items:center; gap:10px; margin-top:8px">
+              <div id="turnBubble" class="turn-bubble">X</div>
+              <div style="font-weight:700" id="turnText">Player X</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button id="restart" class="btn ghost">Restart Round</button>
+          <button id="resetScores" class="btn primary">Reset Scores</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="font-size:13px; color:var(--muted)">Scoreboard</div>
+        <div class="score" style="margin-top:10px">
+          <div class="item"><div style="font-size:12px;color:var(--muted)">Player X</div><div id="scoreX" class="value">0</div></div>
+          <div class="item"><div style="font-size:12px;color:var(--muted)">Draws</div><div id="scoreD" class="value">0</div></div>
+          <div class="item"><div style="font-size:12px;color:var(--muted)">Player O</div><div id="scoreO" class="value">0</div></div>
+        </div>
+      </div>
+
+      <div class="card" style="text-align:center; color:var(--muted); font-size:13px">
+        Built with ❤️
+      </div>
+    </aside>
+  </div>
+
+  <div id="confetti" class="confetti" aria-hidden="true"></div>
+
+  <script>
+    // Game state
+    const boardEl = document.getElementById('board');
+    const turnBubble = document.getElementById('turnBubble');
+    const turnText = document.getElementById('turnText');
+    const restartBtn = document.getElementById('restart');
+    const resetScoresBtn = document.getElementById('resetScores');
+    const scoreXEl = document.getElementById('scoreX');
+    const scoreOEl = document.getElementById('scoreO');
+    const scoreDEl = document.getElementById('scoreD');
+    const confettiRoot = document.getElementById('confetti');
+
+    let board = Array(9).fill(null);
+    let turn = 'X';
+    let scores = {X:0, O:0, D:0};
+    let gameOver = false;
+    let focused = 0;
+
+    const winLines = [
+      [0,1,2], [3,4,5], [6,7,8],
+      [0,3,6], [1,4,7], [2,5,8],
+      [0,4,8], [2,4,6]
+    ];
+
+    function createBoard(){
+      boardEl.innerHTML = '';
+      for(let i=0;i<9;i++){
+        const c = document.createElement('button');
+        c.className = 'cell';
+        c.setAttribute('data-index', i);
+        c.setAttribute('role','gridcell');
+        c.setAttribute('tabindex', i===0? '0' : '-1');
+        c.addEventListener('click', () => handleCellClick(i));
+        c.addEventListener('keydown', (e) => handleCellKey(e,i));
+        boardEl.appendChild(c);
+      }
+      focused = 0;
+    }
+
+    function updateTurnDisplay(){
+      turnBubble.textContent = turn;
+      turnText.textContent = turn === 'X' ? 'Player X' : 'Player O';
+      turnBubble.style.background = `linear-gradient(135deg, ${turn === 'X' ? 'var(--accent-a)' : 'var(--accent-b)'}, ${turn === 'X' ? 'var(--accent-b)' : '#e0007b'})`;
+    }
+
+    function handleCellClick(idx){
+      if(gameOver) return;
+      if(board[idx]) return; // already taken
+      placeMark(idx, turn);
+      const result = checkWinner();
+      if(result){
+        endRound(result);
+      } else {
+        turn = turn === 'X' ? 'O' : 'X';
+        updateTurnDisplay();
+      }
+    }
+
+    function handleCellKey(e, idx){
+      const key = e.key;
+      if(['Enter',' '].includes(key)){
+        e.preventDefault(); handleCellClick(idx); return;
+      }
+      // arrow navigation
+      const row = Math.floor(idx/3), col = idx%3;
+      let nextIdx = idx;
+      if(key === 'ArrowRight') nextIdx = row*3 + ((col+1)%3);
+      if(key === 'ArrowLeft') nextIdx = row*3 + ((col+2)%3);
+      if(key === 'ArrowDown') nextIdx = ((row+1)%3)*3 + col;
+      if(key === 'ArrowUp') nextIdx = ((row+2)%3)*3 + col;
+      if(nextIdx!==idx){
+        const cells = boardEl.querySelectorAll('.cell');
+        cells[nextIdx].focus();
+        cells[idx].setAttribute('tabindex','-1');
+        cells[nextIdx].setAttribute('tabindex','0');
+      }
+    }
+
+    function placeMark(idx, mark){
+      board[idx] = mark;
+      const cell = boardEl.querySelector(`[data-index='${idx}']`);
+      cell.classList.add('disabled');
+      cell.innerHTML = mark === 'X' ? styledX() : styledO();
+    }
+
+    function styledX(){
+      return `<svg width="86" height="86" viewBox="0 0 86 86" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 18L68 68" stroke="url(#g)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M68 18L18 68" stroke="url(#g)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7c5cff"/><stop offset="1" stop-color="#00d4ff"/></linearGradient></defs></svg>`;
+    }
+    function styledO(){
+      return `<svg width="86" height="86" viewBox="0 0 86 86" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="43" cy="43" r="30" stroke="url(#g2)" stroke-width="10" stroke-linecap="round"/><defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00d4ff"/><stop offset="1" stop-color="#7c5cff"/></linearGradient></defs></svg>`;
+    }
+
+    function checkWinner(){
+      for(const line of winLines){
+        const [a,b,c] = line;
+        if(board[a] && board[a] === board[b] && board[a] === board[c]){
+          return { winner: board[a], line };
+        }
+      }
+      if(board.every(Boolean)) return { winner: null, draw: true };
+      return null;
+    }
+
+    function endRound(result){
+      gameOver = true;
+      if(result.draw){
+        scores.D += 1; scoreDEl.textContent = scores.D;
+        announce('Draw');
+      } else {
+        const w = result.winner;
+        scores[w] += 1;
+        if(w === 'X') scoreXEl.textContent = scores.X; else scoreOEl.textContent = scores.O;
+        showWinLine(result.line);
+        announce(`Player ${w} wins!`);
+        fireConfetti();
+      }
+      // disable remaining cells
+      boardEl.querySelectorAll('.cell').forEach(c => c.classList.add('disabled'));
+    }
+
+    function announce(text){
+      turnText.textContent = text;
+      setTimeout(()=> updateTurnDisplay(), 1800);
+    }
+
+    function showWinLine(line){
+      const [a,b,c] = line;
+      // calculate center positions
+      const cells = boardEl.querySelectorAll('.cell');
+      const rectA = cells[a].getBoundingClientRect();
+      const rectC = cells[c].getBoundingClientRect();
+      const parentRect = boardEl.getBoundingClientRect();
+      const x1 = rectA.left + rectA.width/2 - parentRect.left;
+      const y1 = rectA.top + rectA.height/2 - parentRect.top;
+      const x2 = rectC.left + rectC.width/2 - parentRect.left;
+      const y2 = rectC.top + rectC.height/2 - parentRect.top;
+
+      const lineEl = document.createElement('div');
+      lineEl.className = 'win-line';
+      const len = Math.hypot(x2-x1, y2-y1);
+      lineEl.style.width = len + 'px';
+      const angle = Math.atan2(y2-y1, x2-x1) * 180 / Math.PI;
+      lineEl.style.transform = `translate(${(x1+x2)/2 - len/2}px, ${(y1+y2)/2 - 3}px) rotate(${angle}deg)`;
+      boardEl.appendChild(lineEl);
+      setTimeout(()=> lineEl.style.opacity = 1, 20);
+    }
+
+    restartBtn.addEventListener('click', ()=>{
+      resetBoard();
+    });
+
+    resetScoresBtn.addEventListener('click', ()=>{
+      scores = {X:0, O:0, D:0}; scoreXEl.textContent = '0'; scoreOEl.textContent = '0'; scoreDEl.textContent = '0';
+      resetBoard();
+    });
+
+    function resetBoard(){
+      board = Array(9).fill(null); gameOver = false; turn = 'X'; updateTurnDisplay();
+      createBoard();
+    }
+
+    // small confetti implementation
+    function fireConfetti(){
+      confettiRoot.innerHTML = '';
+      const colors = ['#7c5cff','#00d4ff','#ffd166','#ff6b6b','#00e081'];
+      for(let i=0;i<36;i++){
+        const p = document.createElement('div');
+        p.className = 'p';
+        p.style.left = (Math.random()*100)+'%';
+        p.style.top = '-10%';
+        p.style.background = colors[Math.floor(Math.random()*colors.length)];
+        p.style.transform = `rotate(${Math.random()*360}deg)`;
+        p.style.opacity = 0.95;
+        confettiRoot.appendChild(p);
+        // animate
+        const endY = window.innerHeight + 50 + Math.random()*200;
+        p.animate([
+          {transform: `translateY(0) rotate(${Math.random()*360}deg)`, opacity:1},
+          {transform: `translateY(${endY}px) rotate(${Math.random()*360}deg)`, opacity:0.95}
+        ], {duration: 1200 + Math.random()*900, easing:'cubic-bezier(.2,.7,.2,1)'});
+      }
+      // clear after a bit
+      setTimeout(()=> confettiRoot.innerHTML = '', 2200);
+    }
+
+    // initialize
+    createBoard(); updateTurnDisplay();
+
+    // expose keyboard focus: focus first cell on load
+    setTimeout(()=> boardEl.querySelector('.cell').focus(), 80);
+
+  </script>
+</body>
+</html>
